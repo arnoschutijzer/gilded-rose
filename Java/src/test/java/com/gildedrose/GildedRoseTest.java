@@ -122,6 +122,18 @@ class GildedRoseTest {
         assertItemsAreEqual(new Item("Conjured Blade", -1, 2), app.items[0]);
     }
 
+    @Test
+    void conjuredItemDepreciatesTwiceAsFastAsARegularItem() {
+        Item[] items = new Item[]{new Item("Conjured Blade", 2, 10)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertItemsAreEqual(new Item("Conjured Blade", 1, 8), app.items[0]);
+        app.updateQuality();
+        assertItemsAreEqual(new Item("Conjured Blade", 0, 6), app.items[0]);
+        app.updateQuality();
+        assertItemsAreEqual(new Item("Conjured Blade", -1, 2), app.items[0]);
+    }
+
     private void assertItemsAreEqual(Item item1, Item item2) {
         assertEquals(item1.name, item2.name);
         assertEquals(item1.quality, item2.quality);

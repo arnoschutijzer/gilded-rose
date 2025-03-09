@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import java.util.Arrays;
+
 class GildedRose {
     Item[] items;
 
@@ -7,70 +9,25 @@ class GildedRose {
         this.items = items;
     }
 
-    private void updateQualityForBackstagePassesToATAFKAL80ETCConcert(Item item) {
-        item.quality = item.quality + 1;
-        if (item.sellIn < 11) {
-            item.quality = item.quality + 1;
-        }
-        if (item.sellIn < 6) {
-            item.quality = item.quality + 1;
-        }
-
-        item.sellIn = item.sellIn - 1;
-        if (item.sellIn <= 0) {
-            item.quality = 0;
-        }
-
-        if (item.quality > 50) {
-            item.quality = 50;
-        }
-
-        capQualityTo50(item);
-    }
-
-    private void updateQualityForAgedBrie(Item item) {
-        item.quality = item.quality + 1;
-        item.sellIn = item.sellIn - 1;
-        if (item.sellIn < 0 && item.quality < 50) {
-            item.quality = item.quality + 1;
-        }
-
-        capQualityTo50(item);
-    }
-
-    private void updateQualityForANormalItem(Item item) {
-        if (item.quality > 0) {
-            item.quality = item.quality - 1;
-        }
-
-        item.sellIn = item.sellIn - 1;
-
-        if (item.sellIn < 0 && item.quality > 0) {
-            item.quality = item.quality - 1;
-        }
-    }
-
-    private void capQualityTo50(Item item) {
-        if (item.quality > 50) {
-            item.quality = 50;
-        }
-    }
-
     public void updateQuality() {
-        for (Item item : items) {
-            switch (item.name) {
-                case "Sulfuras, Hand of Ragnaros":
-                    return;
-                case "Backstage passes to a TAFKAL80ETC concert":
-                    updateQualityForBackstagePassesToATAFKAL80ETCConcert(item);
-                    return;
-                case "Aged Brie":
-                    updateQualityForAgedBrie(item);
-                    return;
-                default:
-                    updateQualityForANormalItem(item);
-                    return;
-            }
+        Arrays.stream(items)
+            .filter(item -> !item.name.equals("Sulfuras, Hand of Ragnaros"))
+            .forEach(item -> {
+                item.sellIn = item.sellIn - 1;
+
+                int depreciationValueForItem = getDepreciationValueForItem(item);
+                item.quality = item.quality - depreciationValueForItem;
+            });
+    }
+
+    private int getDepreciationValueForItem(Item item) {
+        switch (item.name) {
+            case "Backstage passes to a TAFKAL80ETC concert":
+                return BackstagePassToATAFKAL80ETCConcert.depreciationValue(item);
+            case "Aged Brie":
+                return AgedBrie.depreciationValue(item);
+            default:
+                return RegularItem.depreciationValue(item);
         }
     }
 }

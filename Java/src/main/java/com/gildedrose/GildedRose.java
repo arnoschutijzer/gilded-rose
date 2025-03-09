@@ -57,21 +57,20 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            switch (items[i].name) {
+        for (Item item : items) {
+            switch (item.name) {
                 case "Sulfuras, Hand of Ragnaros":
                     return;
                 case "Backstage passes to a TAFKAL80ETC concert":
-                    updateQualityForBackstagePassesToATAFKAL80ETCConcert(items[i]);
+                    updateQualityForBackstagePassesToATAFKAL80ETCConcert(item);
                     return;
                 case "Aged Brie":
-                    updateQualityForAgedBrie(items[i]);
+                    updateQualityForAgedBrie(item);
                     return;
                 default:
-                    updateQualityForANormalItem(items[i]);
+                    updateQualityForANormalItem(item);
                     return;
             }
-
         }
     }
 }

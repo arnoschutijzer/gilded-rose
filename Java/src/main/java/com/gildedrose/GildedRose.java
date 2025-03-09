@@ -21,6 +21,10 @@ class GildedRose {
     }
 
     private int getDepreciationValueForItem(Item item) {
+        if (item.name.contains("Conjured")) {
+            return ConjuredItem.depreciationValue(item);
+        }
+
         switch (item.name) {
             case "Backstage passes to a TAFKAL80ETC concert":
                 return BackstagePassToATAFKAL80ETCConcert.depreciationValue(item);

@@ -1,20 +1,25 @@
 package com.gildedrose;
 
-public class BackstagePassToATAFKAL80ETCConcert {
-    BackstagePassToATAFKAL80ETCConcert() {
+public class BackstagePassToATAFKAL80ETCConcert extends RegularItem implements Depreciable {
+    BackstagePassToATAFKAL80ETCConcert(int quality, int sellIn) {
+        super("Backstage passes to a TAFKAL80ETC concert", quality, sellIn);
     }
 
-    public static int depreciationValue(Item item) {
-        if (item.quality == 50) {
+    @Override
+    public int depreciationValue() {
+        int sellIn = this.getSellIn();
+        int quality = getQuality();
+
+        if (quality == 50) {
             return 0;
         }
-        if (item.sellIn <= 0) {
-            return item.quality;
+        if (sellIn <= 0) {
+            return quality;
         }
-        if (item.sellIn < 5) {
+        if (sellIn < 5) {
             return -3;
         }
-        if (item.sellIn < 10) {
+        if (sellIn < 10) {
             return -2;
         }
         return -1;

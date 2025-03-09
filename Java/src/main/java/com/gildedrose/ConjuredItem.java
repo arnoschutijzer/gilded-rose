@@ -1,10 +1,12 @@
 package com.gildedrose;
 
-public class ConjuredItem {
-    ConjuredItem() {
+public class ConjuredItem extends RegularItem implements Depreciable {
+    ConjuredItem(String name, int quality, int sellIn) {
+        super(name, quality, sellIn);
     }
 
-    public static int depreciationValue(Item item) {
-        return RegularItem.depreciationValue(item) * 2;
+    @Override
+    public int depreciationValue() {
+        return super.depreciationValue() * 2;
     }
 }

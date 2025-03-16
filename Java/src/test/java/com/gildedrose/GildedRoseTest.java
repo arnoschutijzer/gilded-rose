@@ -23,6 +23,16 @@ class GildedRoseTest {
     }
 
     @Test
+    void normalItemQualityCanNeverBeNegative() {
+        Item[] items = new Item[]{new Item("A normal item", 0, 1)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertItemsAreEqual(new Item("A normal item", -1, 0), app.items[0]);
+        app.updateQuality();
+        assertItemsAreEqual(new Item("A normal item", -2, 0), app.items[0]);
+    }
+
+    @Test
     void agedBrieDepreciatesInSellInAndGoesUpInQuality() {
         Item[] items = new Item[]{new Item("Aged Brie", 0, 0)};
         GildedRose app = new GildedRose(items);
@@ -88,7 +98,16 @@ class GildedRoseTest {
         assertItemsAreEqual(new Item("Backstage passes to a TAFKAL80ETC concert", 0, 0), app.items[0]);
         app.updateQuality();
         assertItemsAreEqual(new Item("Backstage passes to a TAFKAL80ETC concert", -1, 0), app.items[0]);
+    }
 
+    @Test
+    void backstagePassesToTAFKAL80ETCConcertQualityCannotBeGreaterThan50() {
+        Item[] items = new Item[]{new Item("Backstage passes to a TAFKAL80ETC concert", 5, 48)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertItemsAreEqual(new Item("Backstage passes to a TAFKAL80ETC concert", 4, 50), app.items[0]);
+        app.updateQuality();
+        assertItemsAreEqual(new Item("Backstage passes to a TAFKAL80ETC concert", 3, 50), app.items[0]);
     }
 
     @Test

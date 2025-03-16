@@ -16,7 +16,7 @@ class GildedRose {
                 item.sellIn = item.sellIn - 1;
 
                 int depreciationValueForItem = getDepreciationValueForItem(item);
-                item.quality = item.quality - depreciationValueForItem;
+                item.quality = Math.max(0, Math.min(50, item.quality - depreciationValueForItem));
             });
     }
 
